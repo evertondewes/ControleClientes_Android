@@ -9,7 +9,7 @@ import android.widget.TableRow;
 
 public class LinhaTabela extends TableRow {
 
-    public String identificador;
+    public int identificador;
 
     public LinhaTabela(Context context) {
         super(context);

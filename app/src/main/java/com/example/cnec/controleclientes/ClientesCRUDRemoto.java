@@ -29,7 +29,7 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
         String resposta = new String();
         try {
 
-            url = new URL("http://10.0.2.2:80//android/json1/crud_clientes.php");
+            url = new URL("http://10.0.2.2:80/Android_PHP_JSON_Integracao/crud_clientes.php");
             urlConnection = (HttpURLConnection) url.openConnection();
 
             switch (strings[0]){

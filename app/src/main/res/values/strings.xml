@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ControleClientes</string>
+    <string name="excluir">Excluir</string>
+    <string name="atualizar">Atualizar</string>
 </resources>

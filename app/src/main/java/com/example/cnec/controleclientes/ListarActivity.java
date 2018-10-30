@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,35 +31,36 @@ public class ListarActivity extends AppCompatActivity {
 //        registerForContextMenu(cl);
 
 
-        this.listar(null);
+//        this.listar(null);
 
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-        Log.d("View", String.valueOf(v.toString()));
-       // Log.d("menuInfo", String.valueOf(menuInfo.toString()));
-
-        getMenuInflater().inflate(R.menu.opcoes_cliente, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+        LinhaTabela l = (LinhaTabela) v;
+        menu.add(0, 0, 0, "Excluir").setActionView(v);
+        menu.add(0, 1, 0, "Atualizar").setActionView(v);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Log.d("MenuItem", String.valueOf(item.getItemId()));
-//        Log.d("getMenuInfo", String.valueOf(item.getMenuInfo().toString()));
-        LinhaTabela lt = (LinhaTabela)item.getActionView();
 
-        Log.d("identificador", lt.identificador);
+        LinhaTabela lt = (LinhaTabela) item.getActionView();
+
         switch (item.getItemId()) {
-
-
-
+            case 0: // excluir
+                Toast.makeText(getApplicationContext(), "Excluir " + lt.identificador, Toast.LENGTH_LONG).show();
+                break;
+            case 1:
+                // atualizar
+                Toast.makeText(getApplicationContext(), "Atualizar " + lt.identificador, Toast.LENGTH_LONG).show();
+                break;
         }
         return true;
     }
 
-    public void listar(View v){
+    public void listar(View v) {
         ClientesCRUDRemoto c = new ClientesCRUDRemoto();
 
         c.listarActivity = this;
@@ -67,7 +69,7 @@ public class ListarActivity extends AppCompatActivity {
 
     }
 
-    public void cancelar(View v){
+    public void cancelar(View v) {
         finish();
     }
 
@@ -103,33 +105,22 @@ public class ListarActivity extends AppCompatActivity {
                 twNome.setTextSize(30);
 
 
-//                Button b = new Button(this);
-//              //  b.setId(Integer.getInteger(JSONCliente.get("id").toString()));
-//                b.setText(JSONCliente.get("id").toString());
-//
-//                b.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//
-//                    }
-//                });
-
                 tr = new LinhaTabela(this);
-tr.setOnLongClickListener(new View.OnLongClickListener() {
-    @Override
-    public boolean onLongClick(View view) {
-        view.showContextMenu();
 
-        return true;
-    }
-});
+                tr.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        view.showContextMenu();
+                        return true;
+                    }
+                });
 
-                tr.identificador = JSONCliente.get("id").toString();
+                tr.identificador = Integer.parseInt(JSONCliente.get("id").toString());
 
                 registerForContextMenu(tr);
 
                 tr.addView(twId);
-               // tr.addView(b);
+                // tr.addView(b);
                 tr.addView(twNome);
 
                 tl.addView(tr);
