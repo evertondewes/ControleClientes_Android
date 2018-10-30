@@ -18,6 +18,9 @@ import java.net.URL;
  */
 
 public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
+
+    public ListarActivity listarActivity;
+
     @Override
     protected String doInBackground(String... strings) {
         URL url;
@@ -76,4 +79,15 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
         Log.d("Retorno: ", resposta);
         return resposta;
     }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if(this.listarActivity!= null) {
+            this.listarActivity.exibirListagem(s);
+        }
+    }
+
+
 }

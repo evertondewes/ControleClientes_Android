@@ -26,5 +26,10 @@ public class CadastrarActivity extends AppCompatActivity {
                 rua.getText().toString(),
                 numero.getText().toString(),
                 bairro.getText().toString());
+        finish();
+    }
+
+    public void cancelar(View v){
+        finish();
     }
 }
