@@ -29,29 +29,54 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
         String resposta = new String();
         try {
 
-            url = new URL("http://10.0.2.2:80/Android_PHP_JSON_Integracao/crud_clientes.php");
+            url = new URL("http://10.0.2.2:80//android/json1/crud_clientes.php");
             urlConnection = (HttpURLConnection) url.openConnection();
-
+            JSONObject cliente;
+            Writer writer;
             switch (strings[0]){
                 case "POST":
 
-                    JSONObject cliente = new JSONObject();
+                    cliente = new JSONObject();
                     cliente.put("nome", strings[1]);
                     cliente.put("rua", strings[2]);
                     cliente.put("numero", strings[3]);
                     cliente.put("bairro", strings[4]);
 
-
                     urlConnection.setRequestMethod("POST");
 
-                    Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+                    writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
                     writer.write(cliente.toString());
 
                     writer.close();
 
                     break;
                 case "PUT":
+                    cliente = new JSONObject();
+                    cliente.put("id", strings[1]);
+                    cliente.put("nome", strings[2]);
+                    cliente.put("rua", strings[3]);
+                    cliente.put("numero", strings[4]);
+                    cliente.put("bairro", strings[5]);
 
+                    urlConnection.setRequestMethod("PUT");
+
+                    writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+                    writer.write(cliente.toString());
+
+                    writer.close();
+                    break;
+
+                case "DELETE":
+
+                    cliente = new JSONObject();
+                    cliente.put("id", strings[1]);
+
+                    urlConnection.setRequestMethod("DELETE");
+
+                    writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+                    writer.write(cliente.toString());
+
+                    writer.close();
                     break;
             }
 
@@ -76,7 +101,7 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
                 urlConnection.disconnect();
             }
         }
-        Log.d("Retorno: ", resposta);
+//        Log.d("Retorno: ", resposta);
         return resposta;
     }
 

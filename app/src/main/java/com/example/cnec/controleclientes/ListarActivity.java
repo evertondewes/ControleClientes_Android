@@ -1,6 +1,7 @@
 package com.example.cnec.controleclientes;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,12 +28,13 @@ public class ListarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar);
 
-//        ConstraintLayout cl = findViewById(R.id.clListar);
-//        registerForContextMenu(cl);
 
+    }
 
-//        this.listar(null);
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.listar(null);
     }
 
     @Override
@@ -51,10 +53,18 @@ public class ListarActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case 0: // excluir
                 Toast.makeText(getApplicationContext(), "Excluir " + lt.identificador, Toast.LENGTH_LONG).show();
+
+                ClientesCRUDRemoto c = new ClientesCRUDRemoto();
+                c.listarActivity = this;
+                c.execute("DELETE",String.valueOf(lt.identificador) );
+
                 break;
             case 1:
                 // atualizar
-                Toast.makeText(getApplicationContext(), "Atualizar " + lt.identificador, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, AtualizarActivity.class);
+                intent.putExtra("JSONCliente", lt.JSONCliente.toString());
+                startActivity(intent);
+
                 break;
         }
         return true;
@@ -117,10 +127,11 @@ public class ListarActivity extends AppCompatActivity {
 
                 tr.identificador = Integer.parseInt(JSONCliente.get("id").toString());
 
+                tr.JSONCliente = JSONCliente;
+
                 registerForContextMenu(tr);
 
                 tr.addView(twId);
-                // tr.addView(b);
                 tr.addView(twNome);
 
                 tl.addView(tr);
