@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Created by CNEC on 23/10/2018.
@@ -25,11 +27,13 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         URL url;
         HttpURLConnection urlConnection = null;
+        BufferedReader reader;
 
         String resposta = new String();
         try {
 
             url = new URL("http://10.0.2.2:80//android/json1/crud_clientes.php");
+           // url = new URL("http://10.0.2.2:80/JSONIntegracao/json_rest_livros.php");
             urlConnection = (HttpURLConnection) url.openConnection();
             JSONObject cliente;
             Writer writer;
@@ -78,21 +82,26 @@ public class ClientesCRUDRemoto extends AsyncTask<String, Void, String> {
 
                     writer.close();
                     break;
-            }
 
+                case "GET":
+                    if(strings[1]!=null) {
+                        String nomeCliente = URLEncoder.encode(strings[1], "UTF-8");
+
+                        url = new URL("http://10.0.2.2:80//android/json1/crud_clientes.php?nome=" + nomeCliente );
+                        urlConnection = (HttpURLConnection) url.openConnection();
+                    }
+                    break;
+            }
 
             InputStream in = urlConnection.getInputStream();
 
-            InputStreamReader isw = new InputStreamReader(in);
-
-            int data = isw.read();
-            while (data != -1) {
-                char current = (char) data;
-                data = isw.read();
-
-                resposta += current;
-
+            reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
             }
+            resposta = result.toString();
         } catch (Exception e) {
             Log.d("Erro: ", e.toString());
 

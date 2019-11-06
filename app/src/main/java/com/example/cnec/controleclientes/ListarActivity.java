@@ -43,6 +43,7 @@ public class ListarActivity extends AppCompatActivity {
         LinhaTabela l = (LinhaTabela) v;
         menu.add(0, 0, 0, "Excluir").setActionView(v);
         menu.add(0, 1, 0, "Atualizar").setActionView(v);
+        menu.add(0, 2, 0, "Detalhes").setActionView(v);
     }
 
     @Override
@@ -75,7 +76,11 @@ public class ListarActivity extends AppCompatActivity {
 
         c.listarActivity = this;
 
-        c.execute("GET");
+        EditText te = findViewById(R.id.etFiltrarNome);
+
+
+
+        c.execute("GET", te.getText().toString());
 
     }
 

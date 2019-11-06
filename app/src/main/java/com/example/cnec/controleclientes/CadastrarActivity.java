@@ -22,7 +22,8 @@ public class CadastrarActivity extends AppCompatActivity {
         EditText numero = findViewById(R.id.etNumero);
         EditText bairro = findViewById(R.id.etBairro);
 
-        c.execute("POST", nome.getText().toString(),
+        c.execute("POST",
+                nome.getText().toString(),
                 rua.getText().toString(),
                 numero.getText().toString(),
                 bairro.getText().toString());
